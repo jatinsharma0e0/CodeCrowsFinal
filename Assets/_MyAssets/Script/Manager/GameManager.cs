@@ -1,7 +1,8 @@
+using MR.Game.Player; 
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using MR.Game.Player; 
 
 namespace MR.Game.Manager
 {
@@ -14,6 +15,11 @@ namespace MR.Game.Manager
         public int score = 0;
         private PlayerHealth playerHealth;
 
+        public GameObject pauseUI;
+
+        private PlayerController playerController;
+        private bool isPaused;
+
         private void Awake()
         {
             if (Instance == null)
@@ -25,7 +31,23 @@ namespace MR.Game.Manager
             {
                 Destroy(gameObject);
             }
+
+            pauseUI.SetActive(false);
+            playerController = new PlayerController();
         }
+
+        private void OnEnable()
+        {
+            playerController.Player.Enable();
+            playerController.Player.Pause.performed += OnPausePerformed;
+        }
+
+        private void OnDisable()
+        {
+            playerController.Player.Pause.performed -= OnPausePerformed;
+            playerController.Player.Disable();
+        }
+
         private void Start()
         {
             // Find the PlayerHealth component in the scene
@@ -74,6 +96,19 @@ namespace MR.Game.Manager
         {
             Debug.Log("Level Complete!");
             Debug.Log("Next level unlocked");
+        }
+
+        private void OnPausePerformed(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+        {
+            TogglePause();
+        }
+
+        private void TogglePause()
+        {
+            isPaused = !isPaused;
+
+            pauseUI.SetActive(isPaused);
+            Time.timeScale = isPaused ? 0f : 1f;
         }
     }
 }

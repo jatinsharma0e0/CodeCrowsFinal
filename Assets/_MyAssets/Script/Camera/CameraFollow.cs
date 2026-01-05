@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MR.Game.Camera
+namespace MR.Game.CameraFollow
 {
     /// <summary>
     /// Controls the camera to follow the player with smooth movement and dynamic offset adjustments.

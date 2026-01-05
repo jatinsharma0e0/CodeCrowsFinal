@@ -21,7 +21,7 @@ namespace MR.Game.UI
 
         public void PlayGame()
         {
-            SceneManager.LoadScene(gameSceneName);
+            SceneManager.LoadScene(1);
 
         }
 
